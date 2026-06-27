@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  agentcore-app:
+    build: .
+    container_name: agentcore-app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
