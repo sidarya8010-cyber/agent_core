@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_REGION: ${{ secrets.AWS_REGION != '' && secrets.AWS_REGION || 'us-east-1' }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
     steps:
@@ -28,15 +28,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Validate AWS region
+        run: |
+          if [ -z "${AWS_REGION}" ]; then
+            echo "AWS_REGION is empty. Set the AWS_REGION secret or repository variable." >&2
+            exit 1
+          fi
+          echo "Using AWS region: ${AWS_REGION}"
+
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy AgentCore runtime
+        env:
+          AGENTCORE_SUPPRESS_RECOMMENDATION: 1
         run: |
-          agentcore configure -e 01_agentcore_runtime.py
-          agentcore launch --env GROQ_API_KEY=$GROQ_API_KEY
+          agentcore configure --entrypoint 01_agentcore_runtime.py --name 01_agentcore_runtime --non-interactive
+          agentcore deploy --agent 01_agentcore_runtime --env GROQ_API_KEY=$GROQ_API_KEY
