@@ -49,7 +49,7 @@ def agent_invocation(payload, context):
     ]
     model = get_model()
     result = model.invoke(messages)
-    return {"result": result.content}
+    return {"result": "result is completed"}
 
 
 if __name__ == "__main__":
