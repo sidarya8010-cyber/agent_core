@@ -13,5 +13,4 @@ def agent_invocation(payload, context):
 
 
 if __name__ == "__main__":
-    response = agent_invocation({"prompt": "Explain roaming activation."}, None)
-    print(response["result"])
+    app.run()
