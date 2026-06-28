@@ -61,4 +61,4 @@ jobs:
         env:
           AGENTCORE_SUPPRESS_RECOMMENDATION: 1
         run: |
-          agentcore describe --agent agentcore_runtime_github
+          agentcore status --agent agentcore_runtime_github
