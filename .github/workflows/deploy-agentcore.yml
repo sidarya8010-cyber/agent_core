@@ -48,5 +48,5 @@ jobs:
         env:
           AGENTCORE_SUPPRESS_RECOMMENDATION: 1
         run: |
-          agentcore configure --entrypoint 01_agentcore_runtime.py --name 01_agentcore_runtime --non-interactive
-          agentcore deploy --agent 01_agentcore_runtime --env GROQ_API_KEY=$GROQ_API_KEY
+          agentcore configure --entrypoint 01_agentcore_runtime.py --name agentcore_runtime_01 --non-interactive
+          agentcore deploy --agent agentcore_runtime_01 --env GROQ_API_KEY=$GROQ_API_KEY
