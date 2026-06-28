@@ -1,9 +1,7 @@
 import os
 
-from dotenv import load_dotenv
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 
-_ = load_dotenv()
 app = BedrockAgentCoreApp()
 
 MODEL = None
@@ -47,9 +45,9 @@ def agent_invocation(payload, context):
         SystemMessage(content=system_prompt),
         HumanMessage(content=query),
     ]
-    # model = get_model()
-    # result = model.invoke(messages)
-    return {"result": "result is completed"}
+    model = get_model()
+    result = model.invoke(messages)
+    return {"result": result.content}
 
 
 if __name__ == "__main__":
