@@ -47,8 +47,8 @@ def agent_invocation(payload, context):
         SystemMessage(content=system_prompt),
         HumanMessage(content=query),
     ]
-    model = get_model()
-    result = model.invoke(messages)
+    # model = get_model()
+    # result = model.invoke(messages)
     return {"result": "result is completed"}
 
 
